@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>好剧优选-电视剧推荐首页</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="header">
+    <div class="logo">好剧优选｜高分电视剧推荐</div>
+    <div class="nav">
+        <ul>
+            <li><a href="index.html">首页</a></li>
+            <li><a href="detail.html">热门剧集详情</a></li>
+            <li><a href="message.html">推荐留言</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- 顶部剧集轮播banner -->
+<div class="banner-box">
+  <!-- 轮播图片容器 -->
+  <div class="banner-wrap">
+    <a href="detail.html?id=1"><img src="images/banner1.jpg" alt="莫离"></a>
+    <a href="detail.html?id=2"><img src="images/banner2.jpg" alt="唐宫奇案"></a>
+    <a href="detail.html?id=12"><img src="images/banner3.jpg" alt="唐朝诡事录"></a>
+  </div>
+  <!-- 左右切换箭头 -->
+  <span class="prev-btn">&lt;</span>
+  <span class="next-btn">&gt;</span>
+  <!-- 底部圆点指示器 -->
+  <div class="dot-group">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</div>
+
+<!-- 唯一main区域，12部电视剧，无重复 -->
+<div id="main">
+    <h2 style="margin-bottom:20px; font-size:18px;">精选12部高分电视剧推荐</h2>
+    <div class="drama-box">
+
+        <div class="drama-item">
+            <a href="detail.html?id=1">
+                <img src="images/j1.jpg" alt="电视剧1">
+                <p>莫离</p>
+            </a>
+        </div>
+
+        <div class="drama-item">
+            <a href="detail.html?id=2">
+                <img src="images/j2.jpg" alt="电视剧2">
+                <p>唐宫奇案</p>
+            </a>
+        </div>
+
+        <div class="drama-item">
+            <a href="detail.html?id=3">
+                <img src="images/j3.jpg" alt="电视剧3">
+                <p>长月烬明</p>
+            </a>
+        </div>
+
+        <div class="drama-item">
+            <a href="detail.html?id=4">
+                <img src="images/j4.jpg" alt="电视剧4">
+                <p>白月梵星</p>
+            </a>
+        </div>
+
+        <div class="drama-item">
+            <a href="detail.html?id=5">
+                <img src="images/j5.jpg" alt="电视剧5">
+                <p>周生如故</p>
+            </a>
+        </div>
+
+        <div class="drama-item">
+            <a href="detail.html?id=6">
+                <img src="images/j6.jpg" alt="电视剧6">
+                <p>临江仙</p>
+            </a>
+        </div>
+
+        <div class="drama-item">
+            <a href="detail.html?id=7">
+                <img src="images/j7.jpg" alt="电视剧7">
+                <p>陷入我们的热恋</p>
+            </a>
+        </div>
+
+        <div class="drama-item">
+            <a href="detail.html?id=8">
+                <img src="images/j8.jpg" alt="电视剧8">
+                <p>成何体统</p>
+            </a>
+        </div>
+
+        <div class="drama-item">
+            <a href="detail.html?id=9">
+                <img src="images/j9.jpg" alt="电视剧9">
+                <p>猎罪图鉴</p>
+            </a>
+        </div>
+
+        <div class="drama-item">
+            <a href="detail.html?id=10">
+                <img src="images/j10.jpg" alt="电视剧10">
+                <p>七根心简</p>
+            </a>
+        </div>
+
+        <div class="drama-item">
+            <a href="detail.html?id=11">
+                <img src="images/j11.jpg" alt="电视剧11">
+                <p>主角</p>
+            </a>
+        </div>
+        
+        <div class="drama-item">
+            <a href="detail.html?id=12">
+                <img src="images/j12.jpg" alt="电视剧12">
+                <p>唐朝诡事录</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+var bannerBox = document.querySelector('.banner-box');
+var wrap = document.querySelector('.banner-wrap');
+var imgs = document.querySelectorAll('.banner-wrap a');
+var dots = document.querySelectorAll('.dot');
+var prev = document.querySelector('.prev-btn');
+var next = document.querySelector('.next-btn');
+var index = 0;
+var imgWidth = bannerBox.offsetWidth;
+var timer;
+
+function changeSlide(){
+  wrap.style.transform = 'translateX(-' + index * imgWidth + 'px)';
+  for(var i=0;i<dots.length;i++){
+    dots[i].classList.remove('active');
+  }
+  dots[index].classList.add('active');
+}
+
+function autoPlay(){
+  timer = setInterval(function(){
+    index++;
+    if(index >= imgs.length){
+      index = 0;
+    }
+    changeSlide();
+  },4000);
+}
+
+next.onclick = function(){
+  clearInterval(timer);
+  index++;
+  if(index >= imgs.length){
+    index = 0;
+  }
+  changeSlide();
+  autoPlay();
+};
+prev.onclick = function(){
+  clearInterval(timer);
+  index--;
+  if(index < 0){
+    index = imgs.length - 1;
+  }
+  changeSlide();
+  autoPlay();
+};
+for(var i=0;i<dots.length;i++){
+  dots[i].onclick = function(){
+    clearInterval(timer);
+    index = Array.prototype.indexOf.call(dots,this);
+    changeSlide();
+    autoPlay();
+  };
+}
+bannerBox.onmouseenter = function(){
+  clearInterval(timer);
+};
+bannerBox.onmouseleave = function(){
+  autoPlay();
+};
+window.onload = autoPlay;
+</script>
+
+<div id="footer">
+    <p>好剧优选电视剧推荐网站 ©2026 前端课程设计 | 234331134龚雨轩</p>
+</div>
+
+</body>
+</html>

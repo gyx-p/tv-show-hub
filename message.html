@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>剧集推荐留言</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!--复用公共头部导航-->
+    <div id="header">
+        <div class="logo">好剧优选｜高分电视剧推荐</div>
+        <div class="nav">
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="detail.html">热门剧集详情</a></li>
+                <li><a href="message.html">推荐留言</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="main">
+        <h2 style="text-align:center;margin-bottom:30px;">给我们推荐好看的电视剧</h2>
+        <!--表单form标签，绑定提交校验事件onsubmit-->
+        <form class="form-box" onsubmit="return checkForm()">
+            <div class="form-item">
+                <label>您的姓名：</label>
+                <input type="text" id="username" placeholder="请输入真实姓名">
+            </div>
+            <div class="form-item">
+                <label>联系手机号：</label>
+                <input type="text" id="phone" placeholder="请输入11位手机号码">
+            </div>
+            <div class="form-item">
+                <label>推荐剧集名称：</label>
+                <textarea id="msg" rows="5" placeholder="写下你想推荐的电视剧和理由"></textarea>
+            </div>
+            <div class="form-item">
+                <input type="submit" value="提交推荐" class="btn">
+            </div>
+        </form>
+    </div>
+
+    <!--页脚-->
+    <div id="footer">
+        <p>好剧优选电视剧推荐网站 ©2026 前端课程设计 | 234331134龚雨轩</p>
+    </div>
+
+    <!--JS表单验证代码【注释：考核要求表单有效性校验，原生JS实现，关键技术】-->
+    <script>
+        function checkForm(){
+            //1.获取表单三个输入框的值
+            var uname = document.getElementById("username").value.trim();
+            var tel = document.getElementById("phone").value.trim();
+            var content = document.getElementById("msg").value.trim();
+
+            //校验1：姓名不能为空
+            if(uname == ""){
+                alert("姓名不能为空，请填写！");
+                return false; //阻止表单提交
+            }
+            //校验2：手机号正则校验，必须11位纯数字
+            var regPhone = /^1[3-9]\d{9}$/;
+            if(!regPhone.test(tel)){
+                alert("手机号格式错误，请输入11位有效号码！");
+                return false;
+            }
+            //校验3：推荐内容不能为空
+            if(content == ""){
+                alert("推荐内容不能为空！");
+                return false;
+            }
+            //全部校验通过
+            alert("提交成功！感谢您的剧集推荐");
+            return true;
+        }
+    </script>
+</body>
+</html>

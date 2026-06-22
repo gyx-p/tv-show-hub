@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>剧集详情</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;list-style:none;}
+body{font-family:"微软雅黑";background:#f5f5f5;padding:20px;}
+#header{max-width:950px;height:70px;background:#222;margin:0 auto;display:flex;align-items:center;padding:0 20px;border-radius:6px;}
+.logo{color:white;font-size:22px;}
+.nav{margin-left:auto;}
+.nav ul{display:flex;gap:25px;}
+.nav a{color:white;text-decoration:none;}
+#main{max-width:950px;margin:30px auto;display:flex;gap:40px;align-items:flex-start;}
+.detail-img img{width:320px;border-radius:8px;box-shadow:0 2px 10px #ccc;}
+/* 右侧三栏布局 */
+.detail-text{flex:1;line-height:2.0;font-size:16px;display:grid;grid-template-columns:1fr 2fr 1fr;gap:20px;}
+.base-info{background:#fff;padding:15px;border-radius:8px;box-shadow:0 1px 5px #eee;}
+.base-info h3{margin-bottom:10px;color:#333;border-bottom:1px solid #eee;padding-bottom:8px;}
+.base-info p{margin:8px 0;color:#666;}
+.intro-info{background:#fff;padding:15px;border-radius:8px;box-shadow:0 1px 5px #eee;}
+.intro-info h3{margin-bottom:10px;color:#333;border-bottom:1px solid #eee;padding-bottom:8px;}
+.intro-info p{color:#666;line-height:1.8;}
+.actor-info{background:#fff;padding:15px;border-radius:8px;box-shadow:0 1px 5px #eee;}
+.actor-info h3{margin-bottom:10px;color:#333;border-bottom:1px solid #eee;padding-bottom:8px;}
+.actor-info ul li{margin:5px 0;color:#666;}
+/* 收藏按钮 */
+.collect-btn{margin:15px 0;padding:8px 15px;background:#fff;border:1px solid #ff4400;color:#ff4400;border-radius:4px;cursor:pointer;transition:all 0.3s;}
+.collect-btn:hover{background:#ff4400;color:#fff;}
+.collect-btn.active{background:#ff4400;color:#fff;}
+/* 星级评分 */
+.star-score{margin:10px 0;}
+.star-score .stars{display:flex;gap:5px;cursor:pointer;}
+.star-score .star{font-size:20px;color:#ddd;}
+.star-score .star.active{color:#ffd700;}
+.star-score .score-text{margin-top:5px;color:#666;}
+#footer{max-width:950px;height:55px;background:#222;color:white;text-align:center;line-height:55px;margin:30px auto 0;border-radius:6px;}
+.back-home{margin-top:20px;display:inline-block;color:red;font-size:16px;text-decoration:none;}
+</style>
+</head>
+
+<body>
+
+<div id="header">
+<div class="logo">好剧优选｜高分电视剧推荐</div>
+<div class="nav">
+<ul>
+<li><a href="index.html">首页</a></li>
+<li><a href="detail.html">热门剧集详情</a></li>
+<li><a href="message.html">推荐留言</a></li>
+</ul>
+</div>
+</div>
+
+<div id="main">
+<div class="detail-img">
+<img id="poster" src="">
+<!-- 收藏按钮 -->
+<button class="collect-btn" id="collectBtn">收藏该剧</button>
+<!-- 星级评分组件 -->
+<div class="star-score">
+  <div class="stars" id="starContainer">
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+  </div>
+  <div class="score-text" id="scoreText">点击评分</div>
+</div>
+</div>
+
+<div class="detail-text">
+  <!-- 第一栏：基础信息 -->
+  <div class="base-info">
+    <h3>基础信息</h3>
+    <p id="type"></p>
+    <p id="score"></p>
+    <p id="platform">播放平台：腾讯视频 | 爱奇艺 | 优酷</p>
+  </div>
+  <!-- 第二栏：剧情简介 -->
+  <div class="intro-info">
+    <h3>剧情简介</h3>
+    <p id="intro"></p>
+  </div>
+  <!-- 第三栏：主演名单 -->
+  <div class="actor-info">
+    <h3>主演名单</h3>
+    <ul id="actors"></ul>
+  </div>
+</div>
+</div>
+
+<div id="footer">
+<p>好剧优选电视剧推荐网站 ©2026 前端课程设计 | 234331134龚雨轩</p>
+</div>
+
+<script>
+// 剧集完整数据
+var data = [
+{},
+{
+  name:"莫离",
+  img:"images/j1.jpg",
+  type:"类型：古装 / 悬疑",
+  score:"评分：9.2",
+  intro:"《莫离》讲述了一段跨越身份与阶级的深情故事，主角在乱世中坚守初心，为爱奔赴，情节跌宕起伏，情感细腻动人。",
+  actors:["白鹿", "丞磊", "蔡正杰", "董洁"],
+  scoreNum:9.2
+},
+{
+  name:"唐宫奇案",
+  img:"images/j2.jpg",
+  type:"类型：古装 / 探案",
+  score:"评分：8.9",
+  intro:"《唐宫奇案》以大唐盛世为背景，一系列离奇案件接连发生，主角凭借智慧揭开层层迷雾，还原真相，伸张正义。",
+  actors:["白鹿", "王星越", "赵弈钦", "姚安娜"],
+  scoreNum:8.9
+},
+{
+  name:"长月烬明",
+  img:"images/j3.jpg",
+  type:"类型：仙侠 / 爱情",
+  score:"评分：8.5",
+  intro:"《长月烬明》是一部仙侠虐恋大作，讲述了神女与魔神之间三生三世的爱恨纠缠，画面绝美，情感戳心。",
+  actors:["罗云熙", "白鹿", "陈都灵", "邓为"],
+  scoreNum:8.5
+},
+{
+  name:"白月梵星",
+  img:"images/j4.jpg",
+  type:"类型：古装 / 仙侠",
+  score:"评分：8.3",
+  intro:"《白月梵星》讲述了凡女意外踏入仙门，与妖族少主相遇相知，共同闯荡仙界，破除危机的热血成长故事。",
+  actors:["白鹿", "敖瑞鹏", "代露娃", "常华森"],
+  scoreNum:8.3
+},
+{
+  name:"周生如故",
+  img:"images/j5.jpg",
+  type:"类型：古装 / 虐心",
+  score:"评分：9.1",
+  intro:"《周生如故》以家国大义与儿女情长为主线，小南辰王与崔时宜相爱却不能相守，结局令人意难平。",
+  actors:["任嘉伦", "白鹿", "王星越", "李宜儒"],
+  scoreNum:9.1
+},
+{
+  name:"临江仙",
+  img:"images/j6.jpg",
+  type:"类型：古装 / 权谋",
+  score:"评分：8.7",
+  intro:"《临江仙》讲述了寒门子弟凭借智慧在朝堂立足，历经权谋斗争，坚守本心，最终守护一方百姓。",
+  actors:["白鹿", "曾舜晞", "何瑞贤", "陈鑫海"],
+  scoreNum:8.7
+},
+{
+  name:"陷入我们的热恋",
+  img:"images/j7.jpg",
+  type:"类型：青春 / 校园",
+  score:"评分：8.2",
+  intro:"《陷入我们的热恋》是一部高甜校园剧，讲述了学霸与少女从青涩相识到深情相恋的浪漫青春故事。",
+  actors:["刘浩存", "王安宇", "曾黎", "吴汉坤"],
+  scoreNum:8.2
+},
+{
+  name:"成何体统",
+  img:"images/j8.jpg",
+  type:"类型：古装 / 喜剧",
+  score:"评分：8.8",
+  intro:"《成何体统》是穿越搞笑古装剧，现代女主意外穿越成冷宫妃子，爆笑逆袭，欢乐不断。",
+  actors:["丞磊", "王楚然", "唐晓天", "胡意璇"],
+  scoreNum:8.8
+},
+{
+  name:"猎罪图鉴",
+  img:"images/j9.jpg",
+  type:"类型：刑侦 / 悬疑",
+  score:"评分：9.0",
+  intro:"《猎罪图鉴》以模拟画像师为视角，破解各种离奇悬案，用专业与正义还原真相。",
+  actors:["檀健次", "金世佳", "张柏嘉", "朱嘉琦"],
+  scoreNum:9.0
+},
+{
+  name:"七根心简",
+  img:"images/j10.jpg",
+  type:"类型：奇幻 / 冒险",
+  score:"评分：8.4",
+  intro:"《七根心简》讲述少年意外获得神秘法器，踏上冒险之旅，揭开身世与世界的终极秘密。",
+  actors:["宋威龙", "刘浩存", "敖瑞鹏", "王奕婷"],
+  scoreNum:8.4
+},
+{
+  name:"主角",
+  img:"images/j11.jpg",
+  type:"类型：现实 / 励志",
+  score:"评分：8.1",
+  intro:"《主角》讲述平凡人在生活中努力拼搏，不向命运低头，最终活成自己人生主角的励志故事。",
+  actors:["刘浩存", "张嘉益", "窦骁", "秦海璐"],
+  scoreNum:8.1
+},
+{
+  name:"唐朝诡事录",
+  img:"images/j12.jpg",
+  type:"类型：古装 / 悬疑 / 志怪",
+  score:"评分：8.2",
+  intro:"《唐朝诡事录》讲述了盛唐之下，吏部侍郎苏无名与金吾卫中郎将卢凌风从针锋相对到携手同行，遍历长安、南州等地，破解八大诡异奇案，揭开民间怪谈与朝堂权谋交织的真相，守护大唐百姓安宁的故事。",
+  actors:["杨旭文", "杨志刚", "郜思雯", "陈创"],
+  scoreNum:8.2
+}
+];
+
+// 获取URL剧集ID
+var id = location.search.split("=")[1];
+if(!id){
+    id = 1;
+}
+var currentData = data[id];
+
+// 渲染基础信息
+document.getElementById("poster").src = currentData.img;
+document.getElementById("type").innerText = currentData.type;
+document.getElementById("score").innerText = currentData.score;
+document.getElementById("intro").innerText = currentData.intro;
+
+// 渲染主演（ES5无箭头）
+var actorList = document.getElementById("actors");
+currentData.actors.forEach(function(actor){
+  var li = document.createElement("li");
+  li.innerText = actor;
+  actorList.appendChild(li);
+});
+
+// 收藏按钮逻辑
+var collectBtn = document.getElementById("collectBtn");
+var collectedDramas = JSON.parse(localStorage.getItem("collectedDramas") || "[]");
+if(collectedDramas.indexOf(id) > -1){
+  collectBtn.classList.add("active");
+  collectBtn.innerText = "已收藏";
+}
+collectBtn.addEventListener("click", function(){
+  if(collectedDramas.indexOf(id) > -1){
+    // 取消收藏 filter ES5写法
+    collectedDramas = collectedDramas.filter(function(item){
+      return item !== id;
+    });
+    collectBtn.classList.remove("active");
+    collectBtn.innerText = "收藏该剧";
+  }else{
+    collectedDramas.push(id);
+    collectBtn.classList.add("active");
+    collectBtn.innerText = "已收藏";
+  }
+  localStorage.setItem("collectedDramas", JSON.stringify(collectedDramas));
+});
+
+// 星级评分逻辑
+var stars = document.querySelectorAll("#starContainer .star");
+var scoreText = document.getElementById("scoreText");
+var scoreNum = currentData.scoreNum;
+var starLevel = Math.round(scoreNum / 2);
+
+// 初始化星级（ES5 forEach）
+stars.forEach(function(star, index){
+  if(index < starLevel){
+    star.classList.add("active");
+  }
+});
+scoreText.innerText = "当前评分：" + scoreNum + "分";
+
+// 鼠标悬浮、点击星级（ES5 无箭头）
+for(var i=0; i<stars.length; i++){
+  // 悬浮预览
+  stars[i].onmouseover = function(){
+    var idx = Array.prototype.indexOf.call(stars, this);
+    for(var j=0; j<stars.length; j++){
+      if(j <= idx){
+        stars[j].classList.add("active");
+      }else{
+        stars[j].classList.remove("active");
+      }
+    }
+    scoreText.innerText = "你选择了" + ((idx + 1) * 2) + "分";
+  };
+  // 鼠标离开恢复
+  stars[i].onmouseout = function(){
+    for(var j=0; j<stars.length; j++){
+      if(j < starLevel){
+        stars[j].classList.add("active");
+      }else{
+        stars[j].classList.remove("active");
+      }
+    }
+    scoreText.innerText = "当前评分：" + scoreNum + "分";
+  };
+  // 点击打分
+  stars[i].onclick = function(){
+    var idx = Array.prototype.indexOf.call(stars, this);
+    starLevel = idx + 1;
+    scoreNum = starLevel * 2;
+    scoreText.innerText = "已评分：" + scoreNum + "分";
+  };
+}
+</script>
+
+</body>
+</html>
